@@ -1,6 +1,5 @@
-# 01_insecure_architecture/insecure_firewall.tf
+# SSH open to the entire internet (Intentional security flaw)
 
-# Cloud VM open to Internet
 resource "google_compute_firewall" "allow_ssh_insecure" {
   name    = "allow-ssh-from-internet"
   network = google_compute_network.insecure_vpc.name
@@ -11,11 +10,17 @@ resource "google_compute_firewall" "allow_ssh_insecure" {
   }
 
   source_ranges = ["0.0.0.0/0"]
+
+  target_tags = ["ssh-open"]
+
+  description = "Insecure firewall rule allowing SSH from anywhere"
 }
 
-# On-prem VM open to Internet
+
+# On-prem VM also exposed to internet
+
 resource "google_compute_firewall" "allow_ssh_onprem" {
-  name    = "allow-ssh-onprem"
+  name    = "allow-ssh-onprem-internet"
   network = google_compute_network.onprem_vpc.name
 
   allow {
@@ -24,4 +29,8 @@ resource "google_compute_firewall" "allow_ssh_onprem" {
   }
 
   source_ranges = ["0.0.0.0/0"]
+
+  target_tags = ["ssh-open"]
+
+  description = "On-prem SSH exposed to internet"
 }

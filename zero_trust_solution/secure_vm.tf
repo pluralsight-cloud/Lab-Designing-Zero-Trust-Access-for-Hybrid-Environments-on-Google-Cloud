@@ -1,7 +1,8 @@
 resource "google_compute_instance" "secure_vm" {
+
   name         = "secure-private-vm"
   machine_type = "e2-micro"
-  zone         = "us-central1-b"
+  zone         = "us-central1-a"
 
   tags = ["iap-ssh"]
 
@@ -12,18 +13,18 @@ resource "google_compute_instance" "secure_vm" {
   }
 
   network_interface {
+
     network    = google_compute_network.secure_vpc.id
     subnetwork = google_compute_subnetwork.secure_subnet.id
+
+    # NO PUBLIC IP
   }
 
   metadata = {
     enable-oslogin = "TRUE"
   }
 
-  depends_on = [
-    google_compute_network.secure_vpc,
-    google_compute_subnetwork.secure_subnet,
-    google_compute_firewall.allow_iap_ssh,
-    google_compute_firewall.deny_all_ingress
-  ]
+  labels = {
+    environment = "zero-trust"
+  }
 }

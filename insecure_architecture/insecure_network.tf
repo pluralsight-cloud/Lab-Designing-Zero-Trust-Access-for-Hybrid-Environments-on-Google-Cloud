@@ -1,6 +1,5 @@
-# 01_insecure_architecture/insecure_network.tf
+# Cloud VPC (simulated cloud workload environment)
 
-# Cloud VPC
 resource "google_compute_network" "insecure_vpc" {
   name                    = "insecure-cloud-vpc"
   auto_create_subnetworks = false
@@ -11,9 +10,13 @@ resource "google_compute_subnetwork" "insecure_subnet" {
   ip_cidr_range = "10.10.0.0/24"
   region        = "us-central1"
   network       = google_compute_network.insecure_vpc.id
+
+  description = "Subnet for insecure cloud workloads"
 }
 
-# On-prem VPC
+
+# Simulated On-Premises VPC
+
 resource "google_compute_network" "onprem_vpc" {
   name                    = "onprem-vpc"
   auto_create_subnetworks = false
@@ -24,4 +27,6 @@ resource "google_compute_subnetwork" "onprem_subnet" {
   ip_cidr_range = "10.20.0.0/24"
   region        = "us-central1"
   network       = google_compute_network.onprem_vpc.id
+
+  description = "Subnet representing on-prem environment"
 }
