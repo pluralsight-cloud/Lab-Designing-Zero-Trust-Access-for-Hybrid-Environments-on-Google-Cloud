@@ -1,18 +1,17 @@
 # This firewall rule is intentionally insecure.
 # It allows SSH from ANYWHERE on the internet.
 
-resource "google_compute_firewall" "allow_ssh_anywhere" {
-
+# Open SSH to internet
+resource "google_compute_firewall" "allow_ssh_insecure" {
   name    = "allow-ssh-from-internet"
-  network = google_compute_network.cloud_vpc.name
+  network = google_compute_network.insecure_vpc.name
 
   allow {
     protocol = "tcp"
     ports    = ["22"]
   }
 
-  # Critical security flaw
   source_ranges = ["0.0.0.0/0"]
 
-  description = "INSECURE: Allows SSH from the entire internet"
+  depends_on = [google_compute_network.insecure_vpc]
 }

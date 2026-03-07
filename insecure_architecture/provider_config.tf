@@ -1,8 +1,9 @@
-# Detect project automatically from Cloud Shell
-data "google_client_config" "current" {}
+# Configure Google provider.
+# In Cloud Shell the project is already set via:
+# gcloud config set project <PROJECT_ID>
+# Terraform automatically uses that project.
 
 provider "google" {
-  project = data.google_client_config.current.project
-  region  = "us-central1"
-  zone    = "us-central1-a"
+  region = "us-central1"
+  zone   = "us-central1-a"
 }

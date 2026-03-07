@@ -1,24 +1,5 @@
-# Default deny rule
-
-resource "google_compute_firewall" "deny_all_ingress" {
-
-  name    = "deny-all-ingress"
-  network = google_compute_network.secure_vpc.name
-
-  direction = "INGRESS"
-
-  deny {
-    protocol = "all"
-  }
-
-  source_ranges = ["0.0.0.0/0"]
-
-}
-
-# Allow SSH ONLY from IAP
-
+# Allow SSH only via IAP
 resource "google_compute_firewall" "allow_iap_ssh" {
-
   name    = "allow-ssh-from-iap"
   network = google_compute_network.secure_vpc.name
 
@@ -27,9 +8,23 @@ resource "google_compute_firewall" "allow_iap_ssh" {
     ports    = ["22"]
   }
 
-  # Google IAP TCP forwarding range
   source_ranges = ["35.235.240.0/20"]
+  target_tags   = ["iap-ssh"]
 
-  description = "Zero Trust SSH access via IAP only"
+  depends_on = [google_compute_network.secure_vpc]
+}
 
+# Deny all other ingress
+resource "google_compute_firewall" "deny_all_ingress" {
+  name    = "deny-all-ingress"
+  network = google_compute_network.secure_vpc.name
+
+  deny {
+    protocol = "all"
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  priority      = 65534
+
+  depends_on = [google_compute_network.secure_vpc]
 }
