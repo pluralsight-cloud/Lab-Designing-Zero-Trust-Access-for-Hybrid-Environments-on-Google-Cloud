@@ -20,7 +20,6 @@ resource "google_compute_instance" "secure_vm" {
     enable-oslogin = "TRUE"
   }
 
-  # Ensure VM is destroyed before firewall/network
   depends_on = [
     google_compute_network.secure_vpc,
     google_compute_subnetwork.secure_subnet,
