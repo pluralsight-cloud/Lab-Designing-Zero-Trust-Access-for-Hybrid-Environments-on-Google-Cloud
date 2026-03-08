@@ -1,17 +1,21 @@
 # Cloud VPC (simulated cloud workload environment)
 
-resource "google_compute_network" "insecure_vpc" {
-  name                    = "insecure-cloud-vpc"
+resource "google_compute_network" "lab_vpc" {
+  name                    = "lab-cloud-vpc"
   auto_create_subnetworks = false
 }
 
-resource "google_compute_subnetwork" "insecure_subnet" {
-  name          = "insecure-subnet"
+resource "google_compute_subnetwork" "lab_subnet" {
+  name          = "lab-subnet"
   ip_cidr_range = "10.10.0.0/24"
   region        = "us-central1"
-  network       = google_compute_network.insecure_vpc.id
+  network       = google_compute_network.lab_vpc.id
 
-  description = "Subnet for insecure cloud workloads"
+  #TODO
+  #uncomment the following line of code.
+  #private_ip_google_access = true
+
+  description = "Subnet for cloud workloads"
 }
 
 
