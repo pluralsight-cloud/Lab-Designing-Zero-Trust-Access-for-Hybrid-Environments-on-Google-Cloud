@@ -1,6 +1,6 @@
 # TODO:
-# Replace the resource in the below code "allow_ssh_insecure" to "allow-only-IAP"
-# Replace the ame in the below code "allow-ssh-from-internet" to "allow-only-from-IAP""
+# Replace the resource in the below code "allow_ssh_insecure" to "allow-only-iap"
+# Replace the ame in the below code "allow-ssh-from-internet" to "allow-only-from-iap"
 
 resource "google_compute_firewall" "allow_ssh_insecure" {
   name    = "allow-ssh-from-internet"
