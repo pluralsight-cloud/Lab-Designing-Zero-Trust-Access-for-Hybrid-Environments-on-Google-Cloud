@@ -13,7 +13,8 @@ resource "google_compute_firewall" "allow_ssh_insecure" {
   
   # TODO:
   # Replace the open internet range with the Google IAP range
-  # Hint: Identity-Aware Proxy IP range = 35.235.240.0/20 
+  # Only allow from IAP TCP forwarding IPs
+  # Update the Identity-Aware Proxy IP range = 35.235.240.0/20 
   source_ranges = ["0.0.0.0/0"]
 
   # TODO:
